@@ -42,12 +42,19 @@ class Fraction:
         return f"{self.num}/{self.den}" if self.den != 1 else str(self.num)
 
     def as_mixed_number(self):
-        """Returns the fraction as a mixed number."""
-        whole_part = self.num // self.den
+        """
+        Returns the mixed number representation of the fraction.
+
+        Returns:
+            str: The mixed number representation of the fraction.
+        """
+        if self.num % self.den == 0:
+            return str(self.num // self.den)
+        whole = self.num // self.den
         remainder = abs(self.num % self.den)
-        if remainder == 0:
-            return str(whole_part)
-        return f"{whole_part} {remainder}/{self.den}" if whole_part != 0 else f"{self.num}/{self.den}"
+        if whole == 0:
+            return f"{remainder}/{self.den}"
+        return f"{whole} {remainder}/{self.den}" if self.num > 0 else f"{whole} {remainder}/{self.den}"
 
     def __add__(self, other: "Fraction") -> "Fraction":
         """Adds two fractions."""
@@ -110,4 +117,5 @@ class Fraction:
     def is_adjacent_to(self, other: "Fraction") -> bool:
         """Checks if two fractions are adjacent (difference is a unit fraction)."""
         diff = self - other
-        return abs(diff.num) == 1 and diff.den == 1
+        return abs(diff.num) == 1 and abs(diff.den) == diff.den
+
